@@ -21,6 +21,7 @@ target_link_libraries(${PROJECT_NAME}
     ds::array_list
     ds::priority_queue
     ds::undirected_graph
+    ds::hash_table
     algo::sort
     algo::heap
 )

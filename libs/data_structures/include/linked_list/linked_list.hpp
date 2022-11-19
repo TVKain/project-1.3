@@ -57,58 +57,61 @@ namespace ds {
         };
     }
 
+    template<typename U>
+    class linked_list_iterator {
+    public:
+        typedef U value_type;
+        typedef value_type& reference;
+        typedef const value_type& const_reference;
+        typedef value_type* pointer;
+        typedef const value_type* const_pointer;
+        typedef linked_list_node<value_type>* pointer_type;
+
+        linked_list_iterator(const pointer_type &t_curr) : m_curr(t_curr) {}
+
+        pointer_type operator()() {
+            return m_curr;
+        }
+
+        const pointer_type operator()() const {
+            return m_curr;
+        }
+
+        linked_list_iterator& operator++() {
+            m_curr = m_curr->next();
+            return *this;
+        }
+
+        linked_list_iterator& operator--() {
+            m_curr = m_curr->prev();
+            return *this;
+        }
+
+        bool operator==(const linked_list_iterator &other) const {
+            return m_curr == other.m_curr;
+        }
+
+        bool operator!=(const linked_list_iterator &other) const {
+            return m_curr != other.m_curr;
+        }
+
+        const_reference operator*() const {
+            return m_curr->value();
+        }
+
+        reference operator*() {
+            return m_curr->value();
+        }
+
+    private:
+        pointer_type m_curr;
+    };
+
+
     template <typename T, class Allocator = std::allocator<linked_list_node<T>>>
     class linked_list {
     public: 
-        template<typename U>
-        class linked_list_iterator {
-        public:
-            typedef U value_type;
-            typedef value_type& reference;
-            typedef const value_type& const_reference;
-            typedef value_type* pointer;
-            typedef const value_type* const_pointer;
-            typedef linked_list_node<value_type>* pointer_type;
-
-            linked_list_iterator(const pointer_type &t_curr) : m_curr(t_curr) {}
-
-            pointer_type operator()() {
-                return m_curr;
-            }
-
-            const pointer_type operator()() const {
-                return m_curr;
-            }
-
-            linked_list_iterator& operator++() {
-                m_curr = m_curr->next();
-                return *this;
-            }
-
-            linked_list_iterator& operator--() {
-                m_curr = m_curr->prev();
-                return *this;
-            }
-
-            bool operator==(const linked_list_iterator &other) const {
-                return m_curr == other.m_curr;
-            }
-
-            bool operator!=(const linked_list_iterator &other) const {
-                return m_curr != other.m_curr;
-            }
-
-            const_reference operator*() const {
-                return m_curr->value();
-            }
-
-            reference operator*() {
-                return m_curr->value();
-            }
-
-        private:
-            pointer_type m_curr;
-        };
+        
 
         typedef T value_type;
         typedef value_type& reference;

@@ -1,14 +1,25 @@
 #include <iostream>
-#include <vector>
-#include <list>
+#include <string>
+
+#include <functional>
+
+#include "hash_table.hpp"
+#include "linked_list.hpp"
+
 
 int main() {
-    std::list<int> b = {1,2,3};
-    b.erase(b.begin());
-    b.erase(b.begin());
-    b.erase(b.begin());
-    b.erase(b.begin());
+    ds::hash_table<int, int> a;
 
+    a.insert({1, 2});
+    a.insert({10, 1000});
+    a.insert({100, 10000});
 
+    for (auto &it : a) {
+        it.second = 69;
+    }
+
+    for (const auto &it : a) {
+        std::cout << it.second << std::endl;
+    }
     return 0;
 }
