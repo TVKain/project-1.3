@@ -5,11 +5,8 @@
 
 
 int main() {
-    ds::linked_list<int> b = {10, 7, 5, 2};
-    
-    for (auto it : b) {
-        std::cout << it << std::endl;
-    }
+    ds::linked_list<ds::linked_list<int>> a;
+
 
     return 0;
 }

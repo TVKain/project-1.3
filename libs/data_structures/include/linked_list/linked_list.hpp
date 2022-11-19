@@ -7,6 +7,7 @@
 
 #include <memory>
 #include <initializer_list>
+#include <iostream>
 
 namespace ds {
     namespace {
@@ -22,6 +23,9 @@ namespace ds {
             linked_list_node(const_reference t_value) : m_value(t_value), m_next(nullptr), m_prev(nullptr) {}
             linked_list_node(const_reference t_value, const self_pointer &t_next, const self_pointer &t_prev) : 
                 m_value(t_value), m_next(t_next), m_prev(t_prev) {}
+
+            linked_list_node(const linked_list_node& other) : 
+                m_value(other.m_value), m_next(other.m_next), m_prev(other.m_prev) {}
 
             value_type& value() {
                 return m_value;
@@ -311,7 +315,7 @@ namespace ds {
             --m_size;
             return next_node;
         }
-    private:
+    // private:
         allocator_type m_allocator;
         p_node_type m_head;
         p_node_type m_tail;
