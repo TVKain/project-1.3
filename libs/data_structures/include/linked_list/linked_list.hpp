@@ -157,6 +157,10 @@ namespace ds {
             m_size = 0;
         }
 
+        void clear() noexcept {
+            this.~linked_list();
+        }
+
         linked_list& operator=(const linked_list& other) {
             if (this == &other) {
                 return *this;
@@ -285,9 +289,18 @@ namespace ds {
                 return iterator(m_head);
             }
 
+            if (position == end()) {
+                new_node->prev() = m_tail;
+                m_tail->next() = new_node;
+                m_tail = new_node;
+                ++m_size;
+                return iterator(m_tail);
+            }
+
             new_node->next() = position();
             new_node->prev() = position()->prev();
             position()->prev()->next() = new_node;
+            ++m_size;
 
             return iterator(new_node);
         }
@@ -318,7 +331,7 @@ namespace ds {
             --m_size;
             return next_node;
         }
-    // private:
+    private:
         allocator_type m_allocator;
         p_node_type m_head;
         p_node_type m_tail;
