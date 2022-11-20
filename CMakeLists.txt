@@ -13,6 +13,10 @@ add_subdirectory(libs test EXCLUDE_FROM_ALL)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/text.txt 
+    ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
+
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "main")

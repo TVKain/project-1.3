@@ -158,7 +158,7 @@ namespace ds {
         }
 
         void clear() noexcept {
-            this.~linked_list();
+            this->~linked_list();
         }
 
         linked_list& operator=(const linked_list& other) {

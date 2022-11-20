@@ -113,11 +113,11 @@ namespace ds {
             }
 
             bool operator==(const hash_table_iterator& other) const {
-                return m_curr == other.m_curr && m_bucket == other.m_bucket;
+                return m_curr == other.m_curr;
             }
 
             bool operator!=(const hash_table_iterator& other) const {
-                return m_curr != other.m_curr || m_bucket != other.m_bucket;
+                return m_curr != other.m_curr;
             }
 
             const_reference operator*() const {
@@ -182,7 +182,7 @@ namespace ds {
 
             if (find_in_bucket == end()) {
                 auto iter = insert(std::make_pair(key, mapped_type())).first;
-
+                ++m_size;
                 return (*iter).second;
             }
 
@@ -193,6 +193,7 @@ namespace ds {
             auto find_in_bucket = find(key);
 
             if (find_in_bucket == end()) {
+                ++m_size;
                 return insert(std::make_pair(key, mapped));
             }
 
@@ -202,6 +203,10 @@ namespace ds {
         }
                 
         iterator begin() noexcept {
+            if (empty()) {
+                return iterator(*this, nullptr, m_bucket_count);
+            }
+
             size_type first;
             for (size_type i = 0; i < m_bucket_count; ++i) {
                 if (!m_data[i].empty()) {
@@ -220,13 +225,14 @@ namespace ds {
             size_type bucket_index = m_hash_function(value.first) % m_bucket_count;
 
             auto &current_bucket = m_data[bucket_index];
-
+            
             for (auto it = current_bucket.begin(); it != current_bucket.end(); ++it) {
                 if (m_key_compare((*it).first, value.first)) {
                     return std::make_pair(iterator(*this, it, bucket_index), false);
                 }
             }
 
+            ++m_size;
             auto it = current_bucket.insert(current_bucket.end(), value);
             return std::make_pair(iterator(*this, it, bucket_index), true);
         }
@@ -260,6 +266,7 @@ namespace ds {
 
             if (to_delete != current_bucket.end()) {
                 current_bucket.erase(to_delete);
+                --m_size;
                 return 1;
             }
 
@@ -284,6 +291,7 @@ namespace ds {
             }
             m_size = 0;
         }
+
     private:
         hasher m_hash_function;
         key_equal m_key_compare;
