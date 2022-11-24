@@ -1,18 +1,23 @@
-#include <iostream>
+#include "menu.hpp"
 #include <string>
-#include <sstream>
-#include <fstream>
-#include <locale>
+#include <cctype>
 
-#include "hash_table.hpp"
-#include "linked_list.hpp"
-
-
+std::string get_word(std::string &str);
 
 int main() {
-    ds::hash_table<char, int> a;
+    std::string a = "Hello; hi 'end', beginning to the end";
 
-    
+    std::string w = get_word(a);
+
+    std::cout << w << std::endl;
+    std::cout << a << std::endl;
+
+    std::cout << get_word(a) << std::endl;
+    std::cout << a << std::endl;
+
+    std::cout << get_word(a) << std::endl;
+    std::cout << a << std::endl;
 
     return 0;
 }
+

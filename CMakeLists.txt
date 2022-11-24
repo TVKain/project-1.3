@@ -4,6 +4,8 @@ project(project1-2)
 
 set(SOURCES 
     src/main.cpp 
+    src/menu.cpp
+    src/util.cpp
 )
 
 set(CXX_STANDARD_REQUIRED ON)
@@ -17,6 +19,9 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/text.txt 
     ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
 
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/stop_word.txt 
+    ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
+
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "main")
@@ -26,6 +31,7 @@ target_link_libraries(${PROJECT_NAME}
     ds::priority_queue
     ds::undirected_graph
     ds::hash_table
+    ds::binary_search_tree
     algo::sort
     algo::heap
 )

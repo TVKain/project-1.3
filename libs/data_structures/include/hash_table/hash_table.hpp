@@ -81,6 +81,8 @@ namespace ds {
             typedef U value_type;
             typedef value_type& reference;
             typedef const value_type& const_reference;
+            typedef value_type* pointer;
+            typedef const value_type* const_pointer;
             typedef std::size_t size_type;
 
             hash_table_iterator(hash_table &t_parent, const iterator_type &t_curr) 
@@ -126,6 +128,14 @@ namespace ds {
 
             reference operator*() {
                 return *m_curr;
+            }
+
+            pointer operator->() {
+                return &(m_curr);
+            }
+
+            const_pointer operator->() const {
+                return &(m_curr);
             }
         private:
             hash_table& m_parent;

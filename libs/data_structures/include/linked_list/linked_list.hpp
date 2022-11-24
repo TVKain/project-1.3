@@ -10,54 +10,54 @@
 #include <iostream>
 
 namespace ds {
-    namespace {
-        template <typename T>
-        class linked_list_node {
-        public:
-            typedef T value_type;
-            typedef value_type& reference;
-            typedef const value_type& const_reference; 
+    
+    template <typename T>
+    class linked_list_node {
+    public:
+        typedef T value_type;
+        typedef value_type& reference;
+        typedef const value_type& const_reference; 
 
-            typedef linked_list_node* self_pointer;
-            
-            linked_list_node(const_reference t_value) : m_value(t_value), m_next(nullptr), m_prev(nullptr) {}
-            linked_list_node(const_reference t_value, const self_pointer &t_next, const self_pointer &t_prev) : 
-                m_value(t_value), m_next(t_next), m_prev(t_prev) {}
+        typedef linked_list_node* self_pointer;
+        
+        linked_list_node(const_reference t_value) : m_value(t_value), m_next(nullptr), m_prev(nullptr) {}
+        linked_list_node(const_reference t_value, const self_pointer &t_next, const self_pointer &t_prev) : 
+            m_value(t_value), m_next(t_next), m_prev(t_prev) {}
 
-            linked_list_node(const linked_list_node& other) : 
-                m_value(other.m_value), m_next(other.m_next), m_prev(other.m_prev) {}
+        linked_list_node(const linked_list_node& other) : 
+            m_value(other.m_value), m_next(other.m_next), m_prev(other.m_prev) {}
 
-            value_type& value() {
-                return m_value;
-            }
+        value_type& value() {
+            return m_value;
+        }
 
-            self_pointer& next() {
-                return m_next;
-            }
+        self_pointer& next() {
+            return m_next;
+        }
 
-            self_pointer& prev() {
-                return m_prev;
-            }
-            
-            const value_type& value() const {
-                return m_value;
-            }
+        self_pointer& prev() {
+            return m_prev;
+        }
+        
+        const value_type& value() const {
+            return m_value;
+        }
 
-            const self_pointer& next() const {
-                return m_next;
-            }
+        const self_pointer& next() const {
+            return m_next;
+        }
 
-            const self_pointer& prev() const {
-                return m_prev;
-            }
-        private:
-            value_type m_value;
-            self_pointer m_next;
-            self_pointer m_prev;
-        };
-    }
+        const self_pointer& prev() const {
+            return m_prev;
+        }
+    private:
+        value_type m_value;
+        self_pointer m_next;
+        self_pointer m_prev;
+    };
+    
 
-    template<typename U>
+    template <typename U>
     class linked_list_iterator {
     public:
         typedef U value_type;
@@ -103,6 +103,14 @@ namespace ds {
             return m_curr->value();
         }
 
+        pointer operator->() {
+            return &(m_curr->value());
+        }
+
+        const pointer operator->() const {
+            return &(m_curr->value());
+        }
+
     private:
         pointer_type m_curr;
     };
@@ -111,8 +119,6 @@ namespace ds {
     template <typename T, class Allocator = std::allocator<linked_list_node<T>>>
     class linked_list {
     public: 
-        
-
         typedef T value_type;
         typedef value_type& reference;
         typedef const value_type& const_reference;
@@ -331,6 +337,8 @@ namespace ds {
             --m_size;
             return next_node;
         }
+
+        
     private:
         allocator_type m_allocator;
         p_node_type m_head;
