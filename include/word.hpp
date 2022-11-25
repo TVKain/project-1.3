@@ -8,13 +8,16 @@
 #include "linked_list.hpp"
 #include "array_list.hpp"
 
-
 struct word {
     std::string key_word;   
     ds::linked_list<int> line_list;
     int occurrence = 0;
 
-    friend std::ostream& operator<<(std::ostream &os, word &w) {
+    word() : occurrence(0), key_word(std::string()), line_list(ds::linked_list<int>()) {}
+    word(const std::string &t_key_word) : key_word(t_key_word) {}
+
+    friend std::ostream& operator<<(std::ostream &os, const word &w) {
+        os << w.occurrence << " ";
         os << w.key_word;
         
         for (auto &it : w.line_list) {

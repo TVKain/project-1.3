@@ -453,6 +453,15 @@ namespace ds {
             return 1;
         }
 
+        /*************************
+         * @brief: clear container
+         *************************/
+        void clear() {
+            this->~binary_search_tree();
+            m_size = 0;
+            m_root = nullptr;
+        }
+
 
     private:
         /******************************************************************

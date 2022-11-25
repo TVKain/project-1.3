@@ -338,7 +338,72 @@ namespace ds {
             return next_node;
         }
 
-        
+        /************************************
+         * Needs to overload == for this
+         ************************************/
+        iterator find(const value_type &value) {
+            auto start = m_head;
+
+            while (start != nullptr) {
+                if (start->value() == value) {
+                    return iterator(start);
+                }
+                start = start->next();
+            }
+
+            return iterator(nullptr);
+        }
+
+        /*****************************************
+         * Needs to overload < operator
+         * Assumes from low to high
+         *****************************************/
+        void insert_order(const value_type& t_value) {
+            auto new_node = m_allocator.allocate(1);
+            m_allocator.construct(new_node, linked_list_node(t_value));
+
+            if (empty()) {
+                m_head = new_node;
+                m_tail = new_node;
+                ++m_size;
+                return;
+            }
+
+            auto start = m_head;
+
+            while (start != nullptr) {
+                if (start->value() > t_value) {
+                    break;
+                }
+                start = start->next();
+            }
+
+            // If the element to be inserted is before the head
+            if (start == m_head) {
+                new_node->next() = m_head;
+                m_head->prev() = new_node;
+                m_head = new_node;
+                ++m_size;
+                return;
+            }
+
+            // If the element to be inserted is after the tail
+            if (start == nullptr) {
+                new_node->prev() = m_tail;
+                m_tail->next() = new_node;
+                m_tail = new_node;
+                ++m_size;
+                return;
+            }
+
+            // If the element to be inserted is not all of the above
+            new_node->next() = start;
+            start->prev()->next() = new_node;
+            new_node->prev() = start->prev()->next();
+            start->prev() = new_node;
+            ++m_size;
+        }
+               
     private:
         allocator_type m_allocator;
         p_node_type m_head;

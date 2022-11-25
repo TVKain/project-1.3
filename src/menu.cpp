@@ -1,5 +1,11 @@
 #include "menu.hpp"
 
+#include <algorithm>
+#include <fstream>
+
+#include "linked_list.hpp"
+#include "sort.hpp"
+
 void menu::start_menu() {
     for (;;) {
         print_menu();
@@ -37,7 +43,6 @@ void menu::print_container() {
 }
 
 void menu::get_choice() {
-    
     do {
         std::cout << "Enter your choice: ";
         std::cin >> choice;
@@ -46,11 +51,14 @@ void menu::get_choice() {
             std::cout << "Invalid choice" << std::endl;
         }
     } while (choice < 1 || choice > 5);
-    
 }
 
 void menu::get_text() {
-     if (!stop_word_flag) {
+    ll_words.clear();
+    ht_words.clear();
+    bst_words.clear();
+
+    if (!stop_word_flag) {
         std::cout << "Stop word file has not been set" << std::endl;
         return;
     }
@@ -73,38 +81,127 @@ void menu::get_text() {
         return;
     }
 
-    //read_to_linked_list(file);
+    switch (container) {
+    case container_type::LINKED_LIST: 
+        read_to_linked_list(file);
+        break;
+    case container_type::HASH_TABLE:
+        read_to_hash_table(file);
+    case container_type::BINARY_TREE: 
+        read_to_binary_search_tree(file);
+    default:
+        break;
+    }
+
+    std::cout << "File: " << file_name << " has been read successfully" << std::endl;
     text_flag = true;
 }  
 
 
-
-/*
 void menu::read_to_linked_list(std::ifstream& file) {
     std::string line;
 
-
+    int line_count = 1;
     while (std::getline(file, line)) {
-        std::string current;
+        ds::array_list<std::string> words = util::get_words(line);
 
-        int i = 0;
+        for (auto &w : words) {
+            if ((stop_words.find(w) != stop_words.end())) {
+                continue;
+            }
 
-        while (i < line.length()) {
-            current = get_word(line);
+            auto curr = ll_words.find(word(w));
 
-            break;
+            if (curr == ll_words.end()) {
+                word to_insert;
+                to_insert.key_word = w;
+                to_insert.occurrence = 1;
+                to_insert.line_list.push_back(line_count);
+                ll_words.insert_order(to_insert);
+            } else {
+                ++curr->occurrence;
+                if (curr->line_list.back() != line_count) {
+                    curr->line_list.push_back(line_count);
+                }
+            }
         }
+        ++line_count;
+    }
+}
 
+void menu::read_to_binary_search_tree(std::ifstream& file) {
+    std::string line;
+
+    int line_count = 1;
+    while (std::getline(file, line)) {
+        ds::array_list<std::string> words = util::get_words(line);
+
+        for (auto &w : words) {
+            if ((stop_words.find(w) != stop_words.end())) {
+                continue;
+            }
+
+            auto curr = bst_words.find(w);
+
+            if (curr == bst_words.end()) {
+                word to_insert;
+                to_insert.key_word = w;
+                to_insert.occurrence = 1;
+                to_insert.line_list.push_back(line_count);
+                bst_words.insert({w, to_insert});
+            } else {
+                auto& mapped = curr->second;
+
+                ++mapped.occurrence;
+                if (mapped.line_list.back() != line_count) {
+                    mapped.line_list.push_back(line_count);
+                }
+            }
+        }
+        ++line_count;
+    }
+}
+
+void menu::read_to_hash_table(std::ifstream& file) {
+    std::string line;
+
+    int line_count = 1;
+    while (std::getline(file, line)) {
+        ds::array_list<std::string> words = util::get_words(line);
+
+        for (auto &w : words) {
+            if ((stop_words.find(w) != stop_words.end())) {
+                continue;
+            }
+
+            auto curr = ht_words.find(w);
+
+            if (curr == ht_words.end()) {
+                word to_insert;
+                to_insert.key_word = w;
+                to_insert.occurrence = 1;
+                to_insert.line_list.push_back(line_count);
+                
+                ht_words.insert({w, to_insert});
+            } else {
+                // If there's an element
+                auto& mapped = curr->second;
+
+                ++mapped.occurrence;
+                if (mapped.line_list.back() != line_count) {
+                    mapped.line_list.push_back(line_count);
+                }
+            }
+        }
+        ++line_count;
     }
 
 }
 
-*/
-
-
-
 
 void menu::get_stop_word() {
+    stop_words.clear();
+
     std::string file_name;
 
     std::cout << "Input file name: ";
@@ -113,16 +210,23 @@ void menu::get_stop_word() {
 
     std::ifstream file(file_name);
 
-    std::string buff;
-
     if (!file.is_open()) {
         std::cout << "Could not open file: " << "'" << file_name << "'" << std::endl;
         return;
     }
 
+    std::string buff;
+
     while (std::getline(file, buff)) {
+        for (auto &c: buff) {
+            c = std::tolower(c);
+        }
+
         stop_words.push_back(buff);
     }
+
+    std::cout << "File: " << file_name << " has been read successfully" << std::endl;
+    stop_word_flag = true;
 }
 
 void menu::get_container() {
@@ -176,5 +280,63 @@ void menu::get_container() {
         return;
     }
 
-    std::cout << "Generate index" << std::endl;
+    std::string file_name = "index-" + container_to_string(container) + "-" + util::get_current_time() + ".txt";
+    std::fstream file(file_name, std::ios::out);
+
+    if (container == container_type::LINKED_LIST) {
+        for (const auto &it : ll_words) {
+            file << it << std::endl;
+        }
+    } else if (container == container_type::HASH_TABLE) {
+        ds::array_list<word> a_words;
+        for (auto &it : ht_words) {
+            a_words.push_back(it.second);
+        }
+
+        algo::sort::quick_sort_iterative(a_words.begin(), a_words.end(), [](const auto &a, const auto &b) {
+            return a.key_word < b.key_word;
+        });
+
+        for (const auto &it : a_words) {
+            file << it << std::endl;
+        }
+    } else if (container == container_type::BINARY_TREE) {
+        for (const auto &it : bst_words) {
+            file << it.second << std::endl;
+        }
+    }
+
+    std::cout << "Generate index file: " << file_name << std::endl;
+
+    reset_all();
+}
+
+void menu::reset_all() {
+    ll_words.clear();
+    ht_words.clear();
+    bst_words.clear();
+
+    text_flag = false;
+    stop_word_flag = false;
+    container_flag = false;
+}
+
+std::string menu::container_to_string(container_type c) {
+    std::string ret;
+    
+    switch (container) {
+    case container_type::LINKED_LIST: 
+        ret = "linked list";
+        break;
+    case container_type::HASH_TABLE:
+        ret = "hash table";
+        break;
+    case container_type::BINARY_TREE: 
+        ret = "binary search tree";
+        break;
+    default:
+        break;
+    }
+
+    return ret;
 }

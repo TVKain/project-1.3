@@ -79,6 +79,15 @@ build CMakeFiles/project1-2.dir/src/menu.cpp.o: CXX_COMPILER__project1-2 ../src/
   TARGET_COMPILE_PDB = CMakeFiles/project1-2.dir/
   TARGET_PDB = main.pdb
 
+build CMakeFiles/project1-2.dir/src/util.cpp.o: CXX_COMPILER__project1-2 ../src/util.cpp || cmake_object_order_depends_target_project1-2
+  DEP_FILE = CMakeFiles/project1-2.dir/src/util.cpp.o.d
+  FLAGS = -std=gnu++17
+  INCLUDES = -I../include -I../libs/data_structures/include/array_list -I../libs/data_structures/include/priority_queue -I../libs/data_structures/include/graph -I../libs/data_structures/include/linked_list -I../libs/data_structures/include/hash_table -I../libs/data_structures/include/binary_search_tree -I../libs/algorithms/include/heap -I../libs/algorithms/include/sorting
+  OBJECT_DIR = CMakeFiles/project1-2.dir
+  OBJECT_FILE_DIR = CMakeFiles/project1-2.dir/src
+  TARGET_COMPILE_PDB = CMakeFiles/project1-2.dir/
+  TARGET_PDB = main.pdb
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target project1-2
@@ -87,7 +96,7 @@ build CMakeFiles/project1-2.dir/src/menu.cpp.o: CXX_COMPILER__project1-2 ../src/
 #############################################
 # Link the executable main
 
-build main: CXX_EXECUTABLE_LINKER__project1-2 CMakeFiles/project1-2.dir/src/main.cpp.o CMakeFiles/project1-2.dir/src/menu.cpp.o
+build main: CXX_EXECUTABLE_LINKER__project1-2 CMakeFiles/project1-2.dir/src/main.cpp.o CMakeFiles/project1-2.dir/src/menu.cpp.o CMakeFiles/project1-2.dir/src/util.cpp.o
   OBJECT_DIR = CMakeFiles/project1-2.dir
   POST_BUILD = :
   PRE_LINK = :

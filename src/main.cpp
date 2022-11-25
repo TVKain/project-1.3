@@ -2,21 +2,14 @@
 #include <string>
 #include <cctype>
 
-std::string get_word(std::string &str);
+#include "array_list.hpp"
+#include "util.hpp"
+#include "linked_list.hpp"
 
 int main() {
-    std::string a = "Hello; hi 'end', beginning to the end";
+    menu m;
 
-    std::string w = get_word(a);
-
-    std::cout << w << std::endl;
-    std::cout << a << std::endl;
-
-    std::cout << get_word(a) << std::endl;
-    std::cout << a << std::endl;
-
-    std::cout << get_word(a) << std::endl;
-    std::cout << a << std::endl;
+    m.start_menu();
 
     return 0;
 }

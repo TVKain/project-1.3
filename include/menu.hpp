@@ -25,7 +25,6 @@ private:
 
     container_type container;
     
-    ds::array_list<word> a_words;
     ds::linked_list<word> ll_words;
     ds::hash_table<std::string, word> ht_words;
     ds::binary_search_tree<std::string, word> bst_words;
@@ -44,6 +43,12 @@ public:
     void generate_index();
 
     void read_to_linked_list(std::ifstream& file);
+    void read_to_hash_table(std::ifstream& file);
+    void read_to_binary_search_tree(std::ifstream& file);
+
+
+    void reset_all();
+    std::string container_to_string(container_type);
 };
 
 

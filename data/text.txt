@@ -1,6 +1,5 @@
-The operations of insertion and deletion cause the dynamic set
-represented by a binary search tree to change. The data structure must
-be modified to reflect this change, but in such a way that the 
-binary-search-tree property continues to hold. We will see that modifying the tree
-to insert a new element is relatively straightforward, but deleting a node
-from a binary search tree is more complicated.
+Abc Begin; End abc. def End Begin
+Begin 'abc' End...
+Call abc 
+Call Begin "Call" Begin Call
+End.

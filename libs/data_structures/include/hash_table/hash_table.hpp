@@ -131,11 +131,11 @@ namespace ds {
             }
 
             pointer operator->() {
-                return &(m_curr);
+                return &(*m_curr);
             }
 
             const_pointer operator->() const {
-                return &(m_curr);
+                return &(*m_curr);
             }
         private:
             hash_table& m_parent;
