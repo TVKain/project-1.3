@@ -1,5 +1,5 @@
 # ninja log v5
-37	4548	1669387835914041300	CMakeFiles/project1-2.dir/src/util.cpp.o	eef25cdea1312abd
-26	5291	1669387836659176100	CMakeFiles/project1-2.dir/src/main.cpp.o	1d610e5fbe0727a0
-31	5636	1669387837005764000	CMakeFiles/project1-2.dir/src/menu.cpp.o	71550f0c1173ded4
-5649	6879	1669387838258006800	main	a67af4e915bdc471
+34	4055	1669447962485814100	CMakeFiles/project1-2.dir/src/util.cpp.o	eef25cdea1312abd
+26	4904	1669447963337167400	CMakeFiles/project1-2.dir/src/main.cpp.o	1d610e5fbe0727a0
+29	5207	1669447963642328300	CMakeFiles/project1-2.dir/src/menu.cpp.o	71550f0c1173ded4
+5222	6343	1669447964783262300	main	a67af4e915bdc471

@@ -109,7 +109,7 @@ void menu::read_to_linked_list(std::ifstream& file) {
             if ((stop_words.find(w) != stop_words.end())) {
                 continue;
             }
-
+            
             auto curr = ll_words.find(word(w));
 
             if (curr == ll_words.end()) {
@@ -284,8 +284,15 @@ void menu::get_container() {
     std::fstream file(file_name, std::ios::out);
 
     if (container == container_type::LINKED_LIST) {
+        char str = std::toupper(ll_words.front().key_word[0]);
+
+        file << str << ":" << std::endl;
         for (const auto &it : ll_words) {
-            file << it << std::endl;
+            if (std::toupper(it.key_word[0]) != str) {
+                str = std::toupper(it.key_word[0]);
+                file << str << ":" << std::endl;
+            }
+            file << "\t" << it << std::endl;
         }
     } else if (container == container_type::HASH_TABLE) {
         ds::array_list<word> a_words;
@@ -297,12 +304,28 @@ void menu::get_container() {
             return a.key_word < b.key_word;
         });
 
+        char str = std::toupper(a_words.front().key_word[0]);
+
+        file << str << ":" << std::endl;
+
         for (const auto &it : a_words) {
-            file << it << std::endl;
+            if (std::toupper(it.key_word[0]) != str) {
+                str = std::toupper(it.key_word[0]);
+                file << str << ":" << std::endl;
+            }
+            file << "\t" << it << std::endl;
         }
     } else if (container == container_type::BINARY_TREE) {
+        char str = std::toupper(bst_words.begin()->first[0]);
+
+        file << str << ":" << std::endl;
+
         for (const auto &it : bst_words) {
-            file << it.second << std::endl;
+            if (std::toupper(it.first[0]) != str) {
+                str = std::toupper(it.first[0]);
+                file << str << ":" << std::endl;
+            }
+            file << "\t" << it.second << std::endl;
         }
     }
 

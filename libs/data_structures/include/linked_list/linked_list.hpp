@@ -341,6 +341,7 @@ namespace ds {
         /************************************
          * Needs to overload == for this
          ************************************/
+        
         iterator find(const value_type &value) {
             auto start = m_head;
 
@@ -358,6 +359,7 @@ namespace ds {
          * Needs to overload < operator
          * Assumes from low to high
          *****************************************/
+
         void insert_order(const value_type& t_value) {
             auto new_node = m_allocator.allocate(1);
             m_allocator.construct(new_node, linked_list_node(t_value));
@@ -369,39 +371,37 @@ namespace ds {
                 return;
             }
 
-            auto start = m_head;
-
-            while (start != nullptr) {
-                if (start->value() > t_value) {
-                    break;
-                }
-                start = start->next();
-            }
-
-            // If the element to be inserted is before the head
-            if (start == m_head) {
-                new_node->next() = m_head;
+            if (t_value < m_head->value()) {
                 m_head->prev() = new_node;
+                new_node->next() = m_head;
                 m_head = new_node;
                 ++m_size;
                 return;
             }
 
-            // If the element to be inserted is after the tail
+            auto start = m_head;
+
+            while (start != nullptr) {
+                if (t_value < start->value()) {
+                    break;
+                }
+                start = start->next();
+            }
+            
             if (start == nullptr) {
-                new_node->prev() = m_tail;
                 m_tail->next() = new_node;
+                new_node->prev() = m_tail;
                 m_tail = new_node;
                 ++m_size;
-                return;
-            }
+            } else {
+                start = start->prev();
 
-            // If the element to be inserted is not all of the above
-            new_node->next() = start;
-            start->prev()->next() = new_node;
-            new_node->prev() = start->prev()->next();
-            start->prev() = new_node;
-            ++m_size;
+                start->next()->prev() = new_node;
+                new_node->next() = start->next();            
+                start->next() = new_node;
+                new_node->prev() = start;
+                ++m_size;
+            }
         }
                
     private:

@@ -5,12 +5,13 @@
 #include "array_list.hpp"
 #include "util.hpp"
 #include "linked_list.hpp"
+#include "word.hpp"
 
 int main() {
     menu m;
-
     m.start_menu();
-
+    
+    
     return 0;
 }
 

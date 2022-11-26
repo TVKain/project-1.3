@@ -262,6 +262,7 @@ namespace ds {
                 if (m_key_compare((*to_find).first, key)) {
                     return iterator(*this, to_find, bucket_index);
                 }
+                ++to_find;
             }
 
             return iterator(*this, to_find, m_bucket_count);

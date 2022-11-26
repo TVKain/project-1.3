@@ -26,15 +26,15 @@ struct word {
         return os;
     }
 
-    bool operator==(const word &other) {
+    bool operator==(const word &other) const {
         return key_word == other.key_word;
     }
 
-    bool operator>(const word &other) {
+    bool operator>(const word &other) const {
         return key_word > other.key_word;
     }
 
-    bool operator<(const word &other) {
+    bool operator<(const word &other) const {
         return key_word < other.key_word;
     }
 };
