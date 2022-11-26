@@ -1,6 +1,0 @@
-Abc Begin; End abc. def End
-Begin 
-Begin 'abc' End...
-Call abc
-Call Begin "Call" Begin Call
-End. 
